@@ -13,7 +13,7 @@ def speak(audio):
     print("    ")
     print("-------------------")
     print("    ")
-    print(f"Mark: {audio}")
+    print(f"Vera: {audio}")
     print("    ")
     print("-------------------")
     print("    ")
@@ -28,7 +28,7 @@ def takeCommand():
 
         try:
             query = r.recognize_google(audio, language='sk-sk')  # en-in
-            print(f"your saying: {query}\n")  # User query will be printed.
+            print(f"povedal si: {query}\n")  # User query will be printed.
 
         except Exception as e:
             return "None"
@@ -82,23 +82,22 @@ def get_response(intents_list, intents_json):
     return result
 
 
-speak("Četbot je zapnutý")
+speak("Ako ti pomôžem?")
 
 
 while True:
-    print("niečo povädz: ")
     message = takeCommand()
     # message = input("niečo povädz: ")
 
     if "None" in message:
         pass
 
-    elif "Dovidenia" in message:
+    elif "Dovidenia" in message or "prerušiť" in message:
         break
 
     else:
         ints = predict_class(message)
         res = get_response(ints, intents)
-        with open("log.log", "a") as f:
+        with open("log.log", "a", encoding="utf-8") as f:
             f.write(f"Text: {message}; AI: {res};\n")
         speak(res)
