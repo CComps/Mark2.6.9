@@ -1,12 +1,42 @@
+import os
 import speech_recognition as sr  # pip install speechrecognition
 import random
 import json
 import pickle
 import numpy as np
 import nltk
+import time
+import miniaudio
+from mutagen.mp3 import MP3
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
+from gtts import gTTS
+
+
 listener = sr.Recognizer()
+
+
+def say(text):
+    try:
+        print("    ")
+        print("-------------------")
+        print("    ")
+        print(f"Vera: {text}")
+        print("    ")
+        print("-------------------")
+        print("    ")
+        tts = gTTS(text=text, lang='sk', slow=False)
+        tts.save("1.mp3")
+        file = '1.mp3'
+        audio = MP3(file)
+        length = audio.info.length
+        stream = miniaudio.stream_file(file)
+
+        with miniaudio.PlaybackDevice() as device:
+            device.start(stream)
+            time.sleep(length)
+    except:
+        pass
 
 
 def speak(audio):
@@ -17,8 +47,6 @@ def speak(audio):
     print("    ")
     print("-------------------")
     print("    ")
-
-
 
 
 def takeCommand():
@@ -82,8 +110,7 @@ def get_response(intents_list, intents_json):
     return result
 
 
-speak("Ako ti pomôžem?")
-
+say("Ahoj som Vera a rada ti pomôžem nájsť čo potrebuješ. Akú stránku hľadáš?")
 
 while True:
     message = takeCommand()
