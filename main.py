@@ -7,6 +7,7 @@ import numpy as np
 import nltk
 import time
 import miniaudio
+import webbrowser
 from mutagen.mp3 import MP3
 from nltk.stem import WordNetLemmatizer
 from tensorflow.keras.models import load_model
@@ -39,7 +40,7 @@ def say(text):
         pass
 
 
-def speak(audio):
+def VeraPrinText(audio):
     print("    ")
     print("-------------------")
     print("    ")
@@ -127,4 +128,11 @@ while True:
         res = get_response(ints, intents)
         with open("log.log", "a", encoding="utf-8") as f:
             f.write(f"Text: {message}; AI: {res};\n")
-        speak(res)
+        VeraPrinText(res)
+        time.sleep(0.5)
+        otst = say("chceš otvoriť túto stránku?")
+        if "áno" in otst:
+            say("Ok!")
+            webbrowser.open(res)
+        else:
+            say("Ok!")
